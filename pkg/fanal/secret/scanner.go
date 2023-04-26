@@ -379,27 +379,27 @@ func (s *Scanner) Scan(args ScanArgs) types.Secret {
 
 		localExcludedBlocks := newBlocks(args.Content, rule.ExcludeBlock.Regexes)
 
-		for _, loc := range locs {
-			// Skip the secret if it is within excluded blocks.
-			if globalExcludedBlocks.Match(loc) || localExcludedBlocks.Match(loc) {
-				continue
-			}
+// 		for _, loc := range locs {
+// 			// Skip the secret if it is within excluded blocks.
+// 			if globalExcludedBlocks.Match(loc) || localExcludedBlocks.Match(loc) {
+// 				continue
+// 			}
 
-			matched = append(matched, Match{
-				Rule:     rule,
-				Location: loc,
-			})
-			copyCensored.Do(func() {
-				censored = make([]byte, len(args.Content))
-				copy(censored, args.Content)
-			})
-			censored = censorLocation(loc, censored)
-		}
-	}
+// 			matched = append(matched, Match{
+// 				Rule:     rule,
+// 				Location: loc,
+// 			})
+// 			copyCensored.Do(func() {
+// 				censored = make([]byte, len(args.Content))
+// 				copy(censored, args.Content)
+// 			})
+// 			censored = censorLocation(loc, censored)
+// 		}
+// 	}
 
-	for _, match := range matched {
-		findings = append(findings, toFinding(match.Rule, match.Location, censored))
-	}
+// 	for _, match := range matched {
+// 		findings = append(findings, toFinding(match.Rule, match.Location, censored))
+// 	}
 
 	if len(findings) == 0 {
 		return types.Secret{}
